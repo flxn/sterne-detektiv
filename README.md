@@ -12,7 +12,11 @@
   <a href="https://flxn.de/sternedetektiv">Website</a>
 </p>
 
-![SterneDetektiv Score im Google-Maps-Rezensionen-Tab](_assets/screen1.png)
+<p align="center">
+  <img src="_assets/screen1.png" alt="SterneDetektiv Score im Google-Maps-Rezensionen-Tab" width="400">
+</p>
+
+## Was macht SterneDetektiv?
 
 Der Score behandelt die von Google gemeldeten gelöschten Bewertungen als 1-Stern-Bewertungen:
 
@@ -23,6 +27,15 @@ SterneDetektiv Score = (Anzahl Bewertungen * aktuelle Sterne + gelöschte Bewert
 Wenn Google eine Spanne meldet, z. B. `51 bis 100 Bewertungen ... entfernt`, nutzt die Erweiterung den Mittelwert dieser Spanne.
 
 Zusätzlich wird unter dem 1-Stern-Balken ein blauer Balken für gelöschte Bewertungen angezeigt.
+
+## Wie installiere ich die Erweiterung?
+
+1. Rechts in der Seitenleiste den aktuellen Release auswählen oder [DIESEN LINK klicken](https://github.com/flxn/sterne-detektiv/releases/latest)
+2. Die `sternedetektiv-dist.zip`-Datei herunterladen und entpacken.
+4. `chrome://extensions` öffnen.
+5. Entwicklermodus aktivieren.
+6. `Load unpacked` / `Entpackte Erweiterung laden` wählen.
+7. Den entpackten Ordner auswählen.
 
 ## Screenshots
 
@@ -40,15 +53,6 @@ Zusätzlich wird unter dem 1-Stern-Balken ein blauer Balken für gelöschte Bewe
 npm install
 npm run build
 ```
-
-## In Chrome Laden
-
-1. Rechts in der Seitenleiste den aktuellen Release auswählen.
-2. Die `sternedetektiv.zip`-Datei herunterladen und entpacken.
-4. `chrome://extensions` öffnen.
-5. Entwicklermodus aktivieren.
-6. `Load unpacked` / `Entpackte Erweiterung laden` wählen.
-7. Den entpackten Ordner auswählen.
 
 ## Selektoren
 
