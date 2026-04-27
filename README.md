@@ -1,70 +1,33 @@
-# Chrome Extension TypeScript Starter
+# SterneDetektiv
 
-![build](https://github.com/chibat/chrome-extension-typescript-starter/workflows/build/badge.svg)
+Chrome-Erweiterung, die im Rezensionen-Tab eines Google-Maps-Eintrags die sichtbare Sterneanzeige durch einen SterneDetektiv Score ersetzt.
 
-Chrome Extension, TypeScript and Visual Studio Code
+Der Score behandelt die von Google gemeldeten gelöschten Bewertungen als 1-Stern-Bewertungen:
 
-## Prerequisites
-
-* [node + npm](https://nodejs.org/) (Current Version)
-
-## Option
-
-* [Visual Studio Code](https://code.visualstudio.com/)
-
-## Includes the following
-
-* TypeScript
-* Webpack
-* React
-* Jest
-* Example Code
-    * Chrome Storage
-    * Options Version 2
-    * content script
-    * count up badge number
-    * background
-
-## Project Structure
-
-* src/typescript: TypeScript source files
-* src/assets: static files
-* dist: Chrome Extension directory
-* dist/js: Generated JavaScript files
-
-## Setup
-
-```
-npm install
+```text
+SterneDetektiv Score = (Anzahl Bewertungen * aktuelle Sterne + gelöschte Bewertungen) / (Anzahl Bewertungen + gelöschte Bewertungen)
 ```
 
-## Import as Visual Studio Code project
+Wenn Google eine Spanne meldet, z. B. `51 bis 100 Bewertungen ... entfernt`, nutzt die Erweiterung den Mittelwert dieser Spanne.
 
-...
+Zusätzlich wird unter dem 1-Stern-Balken ein blauer Balken für gelöschte Bewertungen angezeigt.
 
 ## Build
 
-```
+```bash
+npm install
 npm run build
 ```
 
-## Build in watch mode
+## In Chrome Laden
 
-### terminal
+1. `chrome://extensions` öffnen.
+2. Entwicklermodus aktivieren.
+3. `Load unpacked` / `Entpackte Erweiterung laden` wählen.
+4. Den Ordner `dist` aus diesem Projekt auswählen.
 
-```
-npm run watch
-```
+## Selektoren
 
-### Visual Studio Code
+Die aktuell ermittelten Google-Maps-Selektoren sind in `docs/google-maps-review-selectors.md` dokumentiert.
 
-Run watch mode.
-
-type `Ctrl + Shift + B`
-
-## Load extension to chrome
-
-Load `dist` directory
-
-## Test
-`npx jest` or `npm run test`
+Die Extraktionslogik liegt in `src/reviewExtraction.ts`. Neue Sprachen oder geänderte Google-Maps-Strukturen sollten dort als neues `ReviewExtractionProfile` ergänzt werden, damit Rendering und DOM-Integration im Content Script getrennt bleiben.

@@ -1,0 +1,212 @@
+.sterne-detektiv-score {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 2px 0;
+  text-align: center;
+}
+
+.sterne-detektiv-label {
+  color: #1967d2;
+  font: 600 12px/16px Roboto, Arial, sans-serif;
+  letter-spacing: 0.02em;
+  /* text-transform: uppercase; */
+}
+
+.sterne-detektiv-value {
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  color: #0b57d0;
+  cursor: pointer;
+  font: 700 44px/48px Roboto, Arial, sans-serif;
+  outline: none;
+  padding: 2px 10px;
+  position: relative;
+  transition: background 120ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sterne-detektiv-value:hover {
+  background: #e8f0fe;
+}
+
+.sterne-detektiv-value:focus-visible {
+  background: #e8f0fe;
+  box-shadow: 0 0 0 2px #1a73e8;
+}
+
+.sterne-detektiv-value--range {
+  font-size: 28px;
+  line-height: 32px;
+  letter-spacing: -0.01em;
+}
+
+.sterne-detektiv-range {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.sterne-detektiv-range-sep {
+  color: #5f6368;
+  font-weight: 500;
+  font-size: 22px;
+  margin: 0 2px;
+}
+
+.sterne-detektiv-bound {
+  font-size: 28px;
+  margin-right: 4px;
+  vertical-align: 4px;
+}
+
+.sterne-detektiv-original-rating {
+  background: #fbbc04;
+  border-radius: 999px;
+  bottom: -8px;
+  box-shadow: 0 2px 8px rgba(60, 64, 67, 0.22);
+  color: #000;
+  font: 700 12px/16px Roboto, Arial, sans-serif;
+  left: 50%;
+  opacity: 0;
+  padding: 3px 9px;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, 6px);
+  transition: opacity 120ms ease, transform 120ms ease;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.sterne-detektiv-value:hover .sterne-detektiv-original-rating,
+.sterne-detektiv-value:focus-visible .sterne-detektiv-original-rating {
+  opacity: 1;
+  transform: translate(-50%, 12px);
+}
+
+.sterne-detektiv-meta {
+  color: #5f6368;
+  font: 400 11px/15px Roboto, Arial, sans-serif;
+  max-width: 150px;
+}
+
+.sterne-detektiv-rate {
+  align-items: baseline;
+  color: #1967d2;
+  display: inline-flex;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 2px 8px;
+  background: #e8f0fe;
+  border-radius: 999px;
+}
+
+.sterne-detektiv-rate-value {
+  font: 600 13px/16px Roboto, Arial, sans-serif;
+}
+
+.sterne-detektiv-rate-label {
+  color: #5f6368;
+  font: 400 11px/15px Roboto, Arial, sans-serif;
+}
+
+.sterne-detektiv-deleted-row td {
+  padding-top: 7px;
+}
+
+.sterne-detektiv-deleted-label {
+  color: #1967d2;
+  font: 500 14px/20px Roboto, Arial, sans-serif;
+  text-align: center;
+}
+
+.sterne-detektiv-deleted-cell {
+  padding: 1px 1px 1px 4px;
+}
+
+.sterne-detektiv-deleted-track {
+  background: #d2e3fc;
+  border-radius: 4px;
+  display: block;
+  height: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.sterne-detektiv-deleted-fill {
+  background: #1a73e8;
+  border-radius: 4px;
+  height: 8px;
+  width: 0;
+}
+
+.sterne-detektiv-overview-notice {
+  align-items: center;
+  background: #e8f0fe;
+  border: 1px solid #d2e3fc;
+  border-radius: 14px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 10px;
+  margin: 10px 16px 4px;
+  padding: 10px 12px;
+}
+
+.sterne-detektiv-overview-logo {
+  display: block;
+  flex: 0 0 28px;
+  height: 28px;
+  object-fit: contain;
+  width: 28px;
+}
+
+.sterne-detektiv-overview-copy {
+  color: #3c4043;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.sterne-detektiv-overview-copy strong {
+  font: 600 13px/17px Roboto, Arial, sans-serif;
+}
+
+.sterne-detektiv-overview-copy span {
+  color: #5f6368;
+  font: 400 12px/16px Roboto, Arial, sans-serif;
+}
+
+.sterne-detektiv-overview-button {
+  background: #1a73e8;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font: 600 12px/16px Roboto, Arial, sans-serif;
+  padding: 7px 11px;
+}
+
+.sterne-detektiv-overview-button:hover {
+  background: #1558b0;
+}
+
+/* Hide Google's rating header + histogram during initial load to avoid a flash
+   while we compute the SterneDetektiv score. Fades in once we're ready, or
+   after a fallback timeout if the script can't render. */
+[role="main"]:not([data-sterne-detektiv-ready]) div[role="img"][aria-label$="Sterne"],
+[role="main"]:not([data-sterne-detektiv-ready]) table:has(tr[role="img"][aria-label*="Sterne"][aria-label*="Rezensionen"]) {
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+[role="main"][data-sterne-detektiv-ready] div[role="img"][aria-label$="Sterne"],
+[role="main"][data-sterne-detektiv-ready] table:has(tr[role="img"][aria-label*="Sterne"][aria-label*="Rezensionen"]) {
+  opacity: 1;
+  transition: opacity 220ms ease;
+}

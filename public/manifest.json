@@ -1,35 +1,31 @@
 {
   "manifest_version": 3,
 
-  "name": "Chrome Extension TypeScript Starter",
-  "description": "Chrome Extension, TypeScript, Visual Studio Code",
+  "name": "SterneDetektiv",
+  "description": "Zeigt einen korrigierten Google-Maps-Bewertungsscore inklusive entfernter Bewertungen.",
   "version": "1.0",
-
-  "options_ui": {
-    "page": "options.html"
-  },
-
-  "action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
+  "icons": {
+      "32": "logo32.png",
+      "64": "logo64.png",
+      "256": "logo256.png"
   },
 
   "content_scripts": [
       {
-          "matches": ["<all_urls>"],
-          "js": ["js/vendor.js", "js/content_script.js"]
+          "matches": ["https://www.google.com/maps/*", "https://www.google.de/maps/*"],
+          "css": ["content_script.css"],
+          "run_at": "document_start"
+      },
+      {
+          "matches": ["https://www.google.com/maps/*", "https://www.google.de/maps/*"],
+          "js": ["js/content_script.js"],
+          "run_at": "document_idle"
       }
   ],
-
-  "background": {
-    "service_worker": "js/background.js"
-  },
-
-  "permissions": [
-    "storage"
-  ],
-
-  "host_permissions": [
-    "<all_urls>"
+  "web_accessible_resources": [
+      {
+          "resources": ["logo32.png"],
+          "matches": ["https://www.google.com/*", "https://www.google.de/*"]
+      }
   ]
 }
