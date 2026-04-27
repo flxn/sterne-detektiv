@@ -3,6 +3,14 @@ name: release
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'webpack/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - 'tsconfig.test.json'
 
 permissions:
   contents: write
