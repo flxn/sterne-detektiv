@@ -200,13 +200,17 @@
    while we compute the SterneDetektiv score. Fades in once we're ready, or
    after a fallback timeout if the script can't render. */
 [role="main"]:not([data-sterne-detektiv-ready]) div[role="img"][aria-label$="Sterne"],
-[role="main"]:not([data-sterne-detektiv-ready]) table:has(tr[role="img"][aria-label*="Sterne"][aria-label*="Rezensionen"]) {
+[role="main"]:not([data-sterne-detektiv-ready]) div[role="img"][aria-label$="stars"],
+[role="main"]:not([data-sterne-detektiv-ready]) table:has(tr[role="img"][aria-label*="Sterne"][aria-label*="Rezensionen"]),
+[role="main"]:not([data-sterne-detektiv-ready]) table:has(tr[role="img"][aria-label*="stars"][aria-label*="reviews"]) {
   opacity: 0;
   transition: opacity 220ms ease;
 }
 
 [role="main"][data-sterne-detektiv-ready] div[role="img"][aria-label$="Sterne"],
-[role="main"][data-sterne-detektiv-ready] table:has(tr[role="img"][aria-label*="Sterne"][aria-label*="Rezensionen"]) {
+[role="main"][data-sterne-detektiv-ready] div[role="img"][aria-label$="stars"],
+[role="main"][data-sterne-detektiv-ready] table:has(tr[role="img"][aria-label*="Sterne"][aria-label*="Rezensionen"]),
+[role="main"][data-sterne-detektiv-ready] table:has(tr[role="img"][aria-label*="stars"][aria-label*="reviews"]) {
   opacity: 1;
   transition: opacity 220ms ease;
 }

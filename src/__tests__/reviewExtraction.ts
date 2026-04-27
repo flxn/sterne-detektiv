@@ -1,4 +1,8 @@
-import { extractReviewData, parseDeletedReviews } from "../reviewExtraction";
+import {
+  GOOGLE_MAPS_REVIEW_PROFILES,
+  extractReviewData,
+  parseDeletedReviews,
+} from "../reviewExtraction";
 
 function createRoot(): Element {
   document.body.innerHTML = `
@@ -48,5 +52,56 @@ test("parses open-ended deleted-review notices as a lower-bound range", () => {
     min: 251,
     max: 375,
     isLowerBound: true,
+  });
+});
+
+test("extracts English Google Maps review data", () => {
+  document.body.innerHTML = `
+    <main role="main">
+      <div>
+        <div role="img" aria-label="4.7 stars"></div>
+      </div>
+      <table>
+        <tbody>
+          <tr role="img" aria-label="5 stars, 1,958 reviews"></tr>
+          <tr role="img" aria-label="4 stars, 748 reviews"></tr>
+          <tr role="img" aria-label="3 stars, 77 reviews"></tr>
+          <tr role="img" aria-label="2 stars, 3 reviews"></tr>
+          <tr role="img" aria-label="1 stars, 11 reviews"></tr>
+        </tbody>
+      </table>
+      <div>Over 250 reviews removed due to defamation complaints.</div>
+    </main>
+  `;
+
+  const data = extractReviewData(document.querySelector('[role="main"]')!);
+
+  expect(data).toEqual({
+    averageRating: 4.7,
+    totalReviews: 2797,
+    deletedReviews: 313,
+    deletedReviewsIsLowerBound: true,
+    deletedRange: { min: 251, max: 375, isLowerBound: true },
+    deletionNotice: "Over 250 reviews removed",
+    distribution: {
+      1: 11,
+      2: 3,
+      3: 77,
+      4: 748,
+      5: 1958,
+    },
+  });
+});
+
+test("parses English deleted-review ranges", () => {
+  expect(
+    parseDeletedReviews(
+      "51 to 100 reviews removed.",
+      GOOGLE_MAPS_REVIEW_PROFILES.en
+    )
+  ).toEqual({
+    min: 51,
+    max: 100,
+    isLowerBound: false,
   });
 });

@@ -80,9 +80,57 @@ export const GOOGLE_MAPS_REVIEW_PROFILES = {
     },
     openEndedRangeWidth: 125,
   },
+  en: {
+    language: "en",
+    locale: "en-US",
+    selectors: {
+      root: '[role="main"]',
+      reviewsTab: '[role="tab"][aria-label^="Reviews for"]',
+      selectedReviewsTab:
+        '[role="tab"][aria-selected="true"][aria-label^="Reviews for"]',
+      histogramRows: 'table tr[role="img"][aria-label*="reviews"]',
+      averageRating: 'div[role="img"][aria-label$="stars"]',
+    },
+    numberFormat: {
+      integerGroupSeparators: /[,\s]/g,
+      decimalSeparator: ".",
+    },
+    patterns: {
+      deletionNotice:
+        /(?:over\s+|more\s+than\s+)?[\d,\s]+(?:\s+to\s+[\d,\s]+)?\s+reviews?[\s\S]{0,180}?removed/i,
+      averageRating: /^([\d,.]+)\s+stars/i,
+      histogramRow: /^(\d+)\s+stars?,\s*([\d,\s]+)\s+reviews/i,
+      deletedRange: /([\d,\s]+)\s+to\s+([\d,\s]+)/i,
+      deletedLowerBound: /(?:^|\D)(?:over|more\s+than)\s+([\d,\s]+)/i,
+      deletedSingle: /^([\d,\s]+)/,
+    },
+    textSearch: {
+      maxAncestorDepth: 3,
+      maxNoticeTextLength: 320,
+    },
+    openEndedRangeWidth: 125,
+  },
 } satisfies Record<string, ReviewExtractionProfile>;
 
 export const DEFAULT_REVIEW_EXTRACTION_PROFILE = GOOGLE_MAPS_REVIEW_PROFILES.de;
+
+export const GOOGLE_MAPS_REVIEW_PROFILE_LIST = Object.values(
+  GOOGLE_MAPS_REVIEW_PROFILES
+);
+
+export function getReviewExtractionProfile(
+  root: Element
+): ReviewExtractionProfile {
+  return (
+    GOOGLE_MAPS_REVIEW_PROFILE_LIST.find(
+      (profile) =>
+        root.querySelector(profile.selectors.selectedReviewsTab) ||
+        root.querySelector(profile.selectors.reviewsTab) ||
+        root.querySelector(profile.selectors.histogramRows) ||
+        root.querySelector(profile.selectors.averageRating)
+    ) ?? DEFAULT_REVIEW_EXTRACTION_PROFILE
+  );
+}
 
 export function normalizeText(value: string | null | undefined): string {
   return (value ?? "")
@@ -219,7 +267,7 @@ function parseHistogram(
 
 export function extractReviewData(
   root: Element,
-  profile: ReviewExtractionProfile = DEFAULT_REVIEW_EXTRACTION_PROFILE,
+  profile: ReviewExtractionProfile = getReviewExtractionProfile(root),
   options: ExtractReviewDataOptions = {}
 ): ReviewData | null {
   const averageLabel = normalizeText(

@@ -1,7 +1,9 @@
 import {
-  DEFAULT_REVIEW_EXTRACTION_PROFILE,
+  GOOGLE_MAPS_REVIEW_PROFILE_LIST,
   extractReviewData,
+  getReviewExtractionProfile,
   type ReviewData,
+  type ReviewExtractionProfile,
 } from "./reviewExtraction";
 
 type ScoreMode = "midpoint" | "range";
@@ -12,13 +14,13 @@ const OVERVIEW_NOTICE_CLASS = "sterne-detektiv-overview-notice";
 const READY_ATTRIBUTE = "data-sterne-detektiv-ready";
 const READY_FALLBACK_MS = 1500;
 const SCORE_MODE_STORAGE_KEY = "sterne-detektiv-score-mode";
-const EXTRACTION_PROFILE = DEFAULT_REVIEW_EXTRACTION_PROFILE;
-const ROOT_SELECTOR = EXTRACTION_PROFILE.selectors.root;
-const HISTOGRAM_ROW_SELECTOR = EXTRACTION_PROFILE.selectors.histogramRows;
-const AVERAGE_RATING_SELECTOR = EXTRACTION_PROFILE.selectors.averageRating;
-const REVIEWS_TAB_SELECTOR = EXTRACTION_PROFILE.selectors.reviewsTab;
-const SELECTED_REVIEWS_TAB_SELECTOR =
-  EXTRACTION_PROFILE.selectors.selectedReviewsTab;
+const ROOT_SELECTOR = GOOGLE_MAPS_REVIEW_PROFILE_LIST[0].selectors.root;
+const REVIEWS_TAB_SELECTOR = GOOGLE_MAPS_REVIEW_PROFILE_LIST.map(
+  (profile) => profile.selectors.reviewsTab
+).join(", ");
+const AVERAGE_RATING_SELECTOR = GOOGLE_MAPS_REVIEW_PROFILE_LIST.map(
+  (profile) => profile.selectors.averageRating
+).join(", ");
 const EXTRACTION_IGNORE_SELECTOR = `.${SCORE_CLASS}, .${DELETED_ROW_CLASS}`;
 
 let scheduled = false;
@@ -122,12 +124,18 @@ function formatScoreOneDecimal(value: number): string {
   });
 }
 
-function isReviewsTabSelected(root: Element): boolean {
-  return Boolean(root.querySelector(SELECTED_REVIEWS_TAB_SELECTOR));
+function isReviewsTabSelected(
+  root: Element,
+  profile: ReviewExtractionProfile
+): boolean {
+  return Boolean(root.querySelector(profile.selectors.selectedReviewsTab));
 }
 
-function getReviewsTab(root: Element): HTMLElement | null {
-  return root.querySelector(REVIEWS_TAB_SELECTOR);
+function getReviewsTab(
+  root: Element,
+  profile: ReviewExtractionProfile
+): HTMLElement | null {
+  return root.querySelector(profile.selectors.reviewsTab);
 }
 
 export function getGoogleMapsRoot(): Element | null {
@@ -140,14 +148,18 @@ export function getGoogleMapsRoot(): Element | null {
   );
 }
 
-function renderScore(root: Element, data: ReviewData): void {
+function renderScore(
+  root: Element,
+  data: ReviewData,
+  profile: ReviewExtractionProfile
+): void {
   const score = calculateScore(data);
   const range = calculateScoreRange(data);
   const deletionRate = (data.deletedReviews / data.totalReviews) * 100;
   const existingScore = root.querySelector(`.${SCORE_CLASS}`);
   const ratingSummary =
     existingScore?.parentElement ??
-    root.querySelector(AVERAGE_RATING_SELECTOR)?.parentElement;
+    root.querySelector(profile.selectors.averageRating)?.parentElement;
 
   if (!ratingSummary) {
     return;
@@ -219,22 +231,25 @@ function renderScore(root: Element, data: ReviewData): void {
     ?.addEventListener("click", () => {
       scoreMode = scoreMode === "range" ? "midpoint" : "range";
       writeScoreMode(scoreMode);
-      renderScore(root, data);
+      renderScore(root, data, profile);
     });
 
   ratingSummary.replaceChildren(scoreElement);
   ratingSummary.setAttribute("aria-label", ariaLabel);
 }
 
-function renderOverviewNotice(root: Element): void {
+function renderOverviewNotice(
+  root: Element,
+  profile: ReviewExtractionProfile
+): void {
   const existingNotice = root.querySelector(`.${OVERVIEW_NOTICE_CLASS}`);
 
-  if (isReviewsTabSelected(root)) {
+  if (isReviewsTabSelected(root, profile)) {
     existingNotice?.remove();
     return;
   }
 
-  const reviewsTab = getReviewsTab(root);
+  const reviewsTab = getReviewsTab(root, profile);
   const tabList = reviewsTab?.closest('[role="tablist"]');
 
   if (!reviewsTab || !tabList || existingNotice) {
@@ -259,9 +274,13 @@ function renderOverviewNotice(root: Element): void {
   tabList.insertAdjacentElement("afterend", notice);
 }
 
-function renderDeletedBar(root: Element, data: ReviewData): void {
+function renderDeletedBar(
+  root: Element,
+  data: ReviewData,
+  profile: ReviewExtractionProfile
+): void {
   const histogramBody = root.querySelector(
-    `${HISTOGRAM_ROW_SELECTOR}`
+    `${profile.selectors.histogramRows}`
   )?.parentElement;
 
   if (!histogramBody) {
@@ -310,16 +329,18 @@ function applySterneDetektiv(): void {
 
   scheduleReadyFallback(root);
 
-  renderOverviewNotice(root);
+  const profile = getReviewExtractionProfile(root);
 
-  if (!isReviewsTabSelected(root)) {
+  renderOverviewNotice(root, profile);
+
+  if (!isReviewsTabSelected(root, profile)) {
     // Overview tab: nothing to render in the rating area, fade in immediately
     // so the user isn't staring at a blank header.
     markReady(root);
     return;
   }
 
-  const data = extractReviewData(root, EXTRACTION_PROFILE, {
+  const data = extractReviewData(root, profile, {
     ignoredSelector: EXTRACTION_IGNORE_SELECTOR,
   });
 
@@ -327,8 +348,8 @@ function applySterneDetektiv(): void {
     return;
   }
 
-  renderScore(root, data);
-  renderDeletedBar(root, data);
+  renderScore(root, data, profile);
+  renderDeletedBar(root, data, profile);
   markReady(root);
 }
 
