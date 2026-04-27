@@ -37,6 +37,10 @@ Zusätzlich wird unter dem 1-Stern-Balken ein blauer Balken für gelöschte Bewe
 6. `Load unpacked` / `Entpackte Erweiterung laden` wählen.
 7. Den entpackten Ordner auswählen.
 
+### Wieso so kompliziert?
+
+Die Erweiterung ist aktuell nicht im Chrome Web Store verfügbar und es ist unklar, ob Google die Veröffentlichung dort zulassen wird. Falls die Erweiterung im Store landet, werde ich hier ein Update mit der neuen Installationsanleitung und Link zum Web Store veröffentlichen.
+
 ## Screenshots
 
 | Mittelwert | Größerer Datensatz |
