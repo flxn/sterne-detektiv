@@ -43,10 +43,12 @@ npm run build
 
 ## In Chrome Laden
 
-1. `chrome://extensions` öffnen.
-2. Entwicklermodus aktivieren.
-3. `Load unpacked` / `Entpackte Erweiterung laden` wählen.
-4. Den Ordner `dist` aus diesem Projekt auswählen.
+1. Rechts in der Seitenleiste den aktuellen Release auswählen.
+2. Die `sternedetektiv.zip`-Datei herunterladen und entpacken.
+4. `chrome://extensions` öffnen.
+5. Entwicklermodus aktivieren.
+6. `Load unpacked` / `Entpackte Erweiterung laden` wählen.
+7. Den entpackten Ordner auswählen.
 
 ## Selektoren
 
