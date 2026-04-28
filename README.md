@@ -5,7 +5,7 @@
 <h1 align="center">SterneDetektiv</h1>
 
 <p align="center">
-  Chrome-Erweiterung, die gelöschte Google-Maps-Bewertungen sichtbar macht und in einen ehrlicheren Score einrechnet.
+  Browser-Erweiterung für Chrome/Chromium und Firefox, die gelöschte Google-Maps-Bewertungen sichtbar macht und in einen ehrlicheren Score einrechnet.
 </p>
 
 <p align="center">
@@ -30,16 +30,28 @@ Zusätzlich wird unter dem 1-Stern-Balken ein blauer Balken für gelöschte Bewe
 
 ## Wie installiere ich die Erweiterung?
 
+### Chrome / Chromium
+
 1. Rechts in der Seitenleiste den aktuellen Release auswählen oder [DIESEN LINK klicken](https://github.com/flxn/sterne-detektiv/releases/latest)
 2. Die `sternedetektiv-dist.zip`-Datei herunterladen und entpacken.
-4. `chrome://extensions` öffnen.
-5. Entwicklermodus aktivieren.
-6. `Load unpacked` / `Entpackte Erweiterung laden` wählen.
-7. Den entpackten Ordner auswählen.
+3. `chrome://extensions` öffnen. In Chromium-basierten Browsern ggf. die entsprechende Erweiterungsseite öffnen, z. B. `edge://extensions` oder `brave://extensions`.
+4. Entwicklermodus aktivieren.
+5. `Load unpacked` / `Entpackte Erweiterung laden` wählen.
+6. Den entpackten Ordner auswählen.
+
+### Firefox
+
+1. Rechts in der Seitenleiste den aktuellen Release auswählen oder [DIESEN LINK klicken](https://github.com/flxn/sterne-detektiv/releases/latest)
+2. Die `sternedetektiv-dist.zip`-Datei herunterladen und entpacken.
+3. Firefox Extension Einstellungen öffnen, im Zahnrad oben rechts "Add-ons debuggen" auswählen. (Oder direkt diese URL eingeben: `about:debugging#/runtime/this-firefox`).
+4. `Temporäres Add-on laden...` / `Load Temporary Add-on...` wählen.
+5. Im entpackten Ordner die Datei `manifest.json` auswählen.
+
+Hinweis: Temporäre Firefox-Add-ons werden beim Beenden von Firefox entfernt und müssen danach erneut geladen werden. Für eine dauerhafte Installation muss die Erweiterung zuerst als Firefox-Add-on signiert und veröffentlicht werden.
 
 ### Wieso so kompliziert?
 
-Die Erweiterung ist aktuell nicht im Chrome Web Store verfügbar und es ist unklar, ob Google die Veröffentlichung dort zulassen wird. Falls die Erweiterung im Store landet, werde ich hier ein Update mit der neuen Installationsanleitung und Link zum Web Store veröffentlichen.
+Die Erweiterung ist aktuell nicht im Chrome Web Store oder auf addons.mozilla.org verfügbar und es ist unklar, ob die Veröffentlichung dort zugelassen wird. Falls die Erweiterung in einem Store landet, werde ich hier ein Update mit der neuen Installationsanleitung und Link zum Store veröffentlichen.
 
 ## Screenshots
 
